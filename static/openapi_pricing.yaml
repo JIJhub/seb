@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: Pricing Service API
+  description: API to calculate prices based on predicted probabilities from the main prediction API.
+  version: 1.0.0
+paths:
+  /get_price:
+    post:
+      summary: Get price based on predicted probabilities
+      description: Calculates price based on the predicted probabilities received from the main API.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                features:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: number
+                  example: [[1.0, 2.0], [3.0, 4.0], [80.0, 16.0]]
+                  description: A 2D array of features for prediction.
+              required:
+                - features
+      responses:
+        '200':
+          description: Successful price calculation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  probabilities:
+                    type: array
+                    items:
+                      type: number
+                  prices:
+                    type: array
+                    items:
+                      type: integer
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

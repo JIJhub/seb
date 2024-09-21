@@ -1,0 +1,37 @@
+FROM python:3.12-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Install tools needed for uWSGI and more
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    libpcre3 \
+    libpcre3-dev \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create a user with no root access and set ownership
+RUN useradd -ms /bin/bash uwsgiuser && \
+    chown -R uwsgiuser:uwsgiuser /app
+
+# Switch to the new user to avoid root privileges
+USER uwsgiuser
+
+# Define environment variable for Flask
+ENV FLASK_APP=predict_service.py
+
+# Make port 5000 available
+EXPOSE 5000
+
+# Start the Flask application with uWSGI when the container launches
+CMD ["uwsgi", "--http", "0.0.0.0:5000", \
+     "--wsgi-file", "predict_service.py", "--callable", "app", \
+     "--processes", "1", "--threads", "1"]

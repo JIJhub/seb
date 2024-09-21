@@ -1,0 +1,16 @@
+services:
+  predict_service:
+    build:
+      context: .
+      dockerfile: Dockerfile.predict
+    ports:
+      - "5000:5000"
+
+  pricing_service:
+    build:
+      context: .
+      dockerfile: Dockerfile.pricing
+    ports:
+      - "5001:5001"
+    depends_on:
+      - predict_service
