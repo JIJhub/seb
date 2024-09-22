@@ -31,8 +31,7 @@ The application requires the following Python packages:
 - pandas==2.2.2
 - flask_swagger_ui==4.11.1
 - uWSGI==2.0.26
-- flake8==7.1.1
-- safety==3.2.7
+- Jinja2==3.1.4
 
 These dependencies are listed in the `requirements.txt` file.
 
@@ -50,13 +49,16 @@ project-root/
 └── static/
     ├── openapi.predict.yaml
     └── openapi_pricing.yaml
+└── .github/
+    └── workflows/
+        └── ci_check.yml
 ```
-## Running linting and vulnerability checks:
 
-```bash
-docker build -f Dockerfile.lint -t lint_image .
-docker run lint_image
-```
+## Running Linting and Vulnerability Checks
+
+When you push to GitHub, automatic linting tests using Pylint 
+will be performed, along with a safety check for vulnerabilities.
+
 ## Usage prediction service
 ```bash
 docker build -f Dockerfile.predict -t predict_image .
@@ -97,6 +99,5 @@ setting access credentials is not implemented.
 environment settings.
 - **Tests**: The project currently lacks unit and integration tests to ensure 
 functionality and reliability.
-- **CI/CD**: should be implemented outside of Docker, ideally using tools like 
-Jenkins, GitHub Actions, or GitLab CI.
+- **Type Checking** Add mypy to ci checks
 - **Monitoring/Logging/Health**, **Message queue**, **...**
