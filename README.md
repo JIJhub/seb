@@ -40,7 +40,6 @@ These dependencies are listed in the `requirements.txt` file.
 ```plaintext
 project-root/
 │   README.md
-│   Dockerfile.lint
 │   Dockerfile.predict
 │   Dockerfile.pricing
 │   docker-compose.yml
