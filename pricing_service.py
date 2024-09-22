@@ -1,3 +1,9 @@
+"""
+This module provides the pricing service for our application.
+
+It uses Flask to create a web server that handles prediction requests.
+"""
+
 from flask import Flask, request, jsonify, redirect
 import requests
 from flask_swagger_ui import get_swaggerui_blueprint
@@ -36,7 +42,7 @@ def get_price() -> any:
             return jsonify({"error": "Invalid input"}), 400
 
         # Forward the request to the main prediction API
-        response = requests.post(PREDICT_API_URL, json=data)
+        response = requests.post(PREDICT_API_URL, json=data, timeout=10)
 
         if response.status_code != 200:
             return jsonify(
@@ -64,7 +70,7 @@ def get_price() -> any:
 
         return jsonify({"probabilities": probabilities, "prices": prices})
 
-    except Exception as e:
+    except Exception as e:  # pylint: disable=W0718
         return jsonify({"error": str(e)}), 500
 
 
