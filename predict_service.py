@@ -1,8 +1,15 @@
-from flask import Flask, request, jsonify, redirect
-from sklearn.ensemble import RandomForestClassifier
+"""
+This module provides the prediction service for our application.
+
+It uses Flask to create a web server that handles prediction requests.
+"""
+
 import numpy as np
-from sklearn.datasets import make_classification
+
+from flask import Flask, request, jsonify, redirect
 from flask_swagger_ui import get_swaggerui_blueprint
+from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
 
 app = Flask(__name__)
 
@@ -36,7 +43,7 @@ def generate_sample_data() -> tuple[np.ndarray, np.ndarray]:
             - X (np.ndarray): The feature matrix of shape (1000, 2).
             - y (np.ndarray): The target vector of shape (1000,).
     """
-    X, y = make_classification(
+    X, y = make_classification(  # pylint: disable=C0103
         n_samples=1000,
         n_features=2,
         n_classes=2,
@@ -53,7 +60,7 @@ def train_model() -> RandomForestClassifier:
     Returns:
         RandomForestClassifier: The trained Random Forest model.
     """
-    X, y = generate_sample_data()
+    X, y = generate_sample_data()  # pylint: disable=C0103
     model = RandomForestClassifier()
     model.fit(X, y)
     return model
@@ -92,7 +99,7 @@ def predict_proba() -> any:
 
         proba = trained_model.predict_proba(input_features)[:, 1]
         return jsonify({"probabilities": proba.tolist()})
-    except Exception as e:
+    except Exception as e:  # pylint: disable=W0718
         return jsonify({"error": str(e)}), 500
 
 
