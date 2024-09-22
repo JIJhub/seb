@@ -32,6 +32,7 @@ The application requires the following Python packages:
 - flask_swagger_ui==4.11.1
 - uWSGI==2.0.26
 - Jinja2==3.1.4
+- requests==2.32.3
 
 These dependencies are listed in the `requirements.txt` file.
 

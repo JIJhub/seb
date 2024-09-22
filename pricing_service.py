@@ -5,7 +5,7 @@ It uses Flask to create a web server that handles prediction requests.
 """
 
 from flask import Flask, request, jsonify, redirect
-import requests  # pylint: disable=E040
+import requests
 from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
